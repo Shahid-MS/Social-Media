@@ -4,6 +4,7 @@ import { createContext, useReducer } from "react";
 export const PostList = createContext({
   postList: [],
   addPost: () => {},
+  addInitialPost: () => {},
   deletePost: () => {},
 });
 
@@ -15,22 +16,32 @@ const postListReducer = (currPostList, action) => {
     );
   } else if (action.type === "ADD_POST") {
     newPostList = [action.payload.newPost, ...currPostList];
+  } else if (action.type === "ADD_INITIAL_POSTS") {
+    newPostList = action.payload.posts;
   }
   // console.log(newPostList);
   return newPostList;
 };
 
+
+
 const PostListProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    postListReducer,
-    DEFAULT_POST_LIST
-  );
+  const [postList, dispatchPostList] = useReducer(postListReducer, []);
 
   const addPost = (newPost) => {
     dispatchPostList({
       type: "ADD_POST",
       payload: {
         newPost,
+      },
+    });
+  };
+
+  const addInitialPosts = (posts) => {
+    dispatchPostList({
+      type: "ADD_INITIAL_POSTS",
+      payload: {
+        posts,
       },
     });
   };
@@ -45,29 +56,12 @@ const PostListProvider = ({ children }) => {
   };
 
   return (
-    <PostList.Provider value={{ postList, addPost, deletePost }}>
+    <PostList.Provider
+      value={{ postList, addPost, deletePost, addInitialPosts }}
+    >
       {children}
     </PostList.Provider>
   );
 };
-
-const DEFAULT_POST_LIST = [
-  {
-    id: "1",
-    title: "Going to mumbai",
-    body: "for vacations",
-    reactions: 0,
-    userId: "user-9",
-    tags: ["vacations", "mumbai"],
-  },
-  {
-    id: "2",
-    title: "Going to kolkata",
-    body: "for study",
-    reactions: 200,
-    userId: "user-12",
-    tags: ["study"],
-  },
-];
 
 export default PostListProvider;

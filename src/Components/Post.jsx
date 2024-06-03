@@ -4,8 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { PostList as PostListData } from "../Store/Posts-list";
 import { useContext } from "react";
 function Post({ post }) {
-  //   console.log(post);
-
+  // console.log(post);
   const { deletePost } = useContext(PostListData);
 
   return (
@@ -26,7 +25,7 @@ function Post({ post }) {
       {/* reactions */}
       <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
         <FaHeart className="me-1" />
-        {post.reactions}
+        {post.reactions.likes}
       </span>
       <button
         className="btn btn-danger m-2"
