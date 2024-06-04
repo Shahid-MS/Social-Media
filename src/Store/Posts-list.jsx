@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useReducer } from "react";
+import { createContext, useCallback, useReducer } from "react";
 
 export const PostList = createContext({
   postList: [],
@@ -23,8 +23,6 @@ const postListReducer = (currPostList, action) => {
   return newPostList;
 };
 
-
-
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer, []);
 
@@ -46,14 +44,18 @@ const PostListProvider = ({ children }) => {
     });
   };
 
-  const deletePost = (postId) => {
-    dispatchPostList({
-      type: "DELETE_POST",
-      payload: {
-        postId,
-      },
-    });
-  };
+  const deletePost = useCallback(
+    (postId) => {
+      dispatchPostList({
+        type: "DELETE_POST",
+        payload: {
+          postId,
+        },
+      });
+      // console.log("Calling dispatch delete post");
+    },
+    [dispatchPostList]
+  );
 
   return (
     <PostList.Provider
