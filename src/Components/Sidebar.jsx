@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 /* eslint-disable react/prop-types */
-const Sidebar = ({ selectedTab, handleSelectedTab }) => {
+const Sidebar = () => {
   return (
     <div
       className="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar"
@@ -16,41 +18,21 @@ const Sidebar = ({ selectedTab, handleSelectedTab }) => {
       </a>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
-        <li
-          className="nav-item"
-          onClick={() => {
-            handleSelectedTab("home");
-          }}
-        >
-          <a
-            href="#"
-            className={`nav-link text-black ${
-              selectedTab === "home" && "active text-white"
-            }  `}
-            aria-current="page"
-          >
+        <li className="nav-item">
+          <Link to={"/"} className="nav-link text-black" aria-current="page">
             <svg className="bi me-2" width="16" height="16">
               <use xlinkHref="#home"></use>
             </svg>
             Home
-          </a>
+          </Link>
         </li>
-        <li
-          onClick={() => {
-            handleSelectedTab("createPost");
-          }}
-        >
-          <a
-            href="#"
-            className={`nav-link text-black ${
-              selectedTab === "createPost" && "active text-white"
-            }  `}
-          >
+        <li>
+          <Link to={"/create-post"} className="nav-link text-black">
             <svg className="bi me-2" width="16" height="16">
               <use xlinkHref="#speedometer2"></use>
             </svg>
             Create post
-          </a>
+          </Link>
         </li>
       </ul>
       <hr />

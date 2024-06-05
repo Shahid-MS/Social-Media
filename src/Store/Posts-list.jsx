@@ -1,15 +1,21 @@
 /* eslint-disable react/prop-types */
-import { createContext, useCallback, useEffect, useReducer, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
 
 export const PostList = createContext({
   postList: [],
   addPost: () => {},
-  fetching:false,
+  fetching: false,
   deletePost: () => {},
 });
 
 const postListReducer = (currPostList, action) => {
-
   let newPostList = currPostList;
   if (action.type === "DELETE_POST") {
     newPostList = currPostList.filter(
@@ -64,24 +70,21 @@ const PostListProvider = ({ children }) => {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetch("https://dummyjson.com/posts",{signal})
+    fetch("https://dummyjson.com/posts", { signal })
       .then((res) => res.json())
       .then((data) => {
         addInitialPosts(data.posts);
         setFetching(false);
       });
 
-      return ()=>{
-        controller.abort();
-        console.log("Aborting");
-      }
+    return () => {
+      controller.abort();
+      console.log("Aborting");
+    };
   }, []);
 
-
   return (
-    <PostList.Provider
-      value={{ postList, addPost, deletePost, fetching }}
-    >
+    <PostList.Provider value={{ postList, addPost, deletePost, fetching }}>
       {children}
     </PostList.Provider>
   );
